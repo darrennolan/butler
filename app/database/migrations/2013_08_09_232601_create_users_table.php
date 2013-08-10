@@ -2,16 +2,16 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration {
-
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('users', function($table) {
+class CreateUsersTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('users', function($table) {
             $table->increments('id')->unsigned();
             $table->string('email');
             $table->string('password');
@@ -25,17 +25,22 @@ class CreateUsersTable extends Migration {
             $table->enum('status', array('active', 'pending', 'trash', 'disabled'))->default('active');
 
             $table->timestamps();
-        });
-	}
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('users');
-	}
+            $table->unique('email');                // User emails are unique
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('users', function ($table) {
+            $table->dropUnique('users_email_unique');
+        });
+        Schema::drop('users');
+    }
 
 }
