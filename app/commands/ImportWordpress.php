@@ -101,9 +101,6 @@ class ImportWordpress extends Command
         $this->info('Importing Posts...');
         $this->importPosts();
 
-        $this->info('Linking Posts with their Categories');
-        $this->linkPostCategories();
-
         $this->comment_mapping = array();
         $this->info('Importing Comments...');
         $this->importComments();
@@ -228,20 +225,23 @@ class ImportWordpress extends Command
 
             $post->allow_comments = ($wordpress_post->comment_status == 'open' ? true : false);
 
-            // Need to link this posts categories to the appropriate categories in our system
-            $wordpress_categories = DB::connection('wordpress_import')->table('term_relationships')
-                ->join('term_taxonomy', 'term_taxonomy.term_taxonomy_id', '=', 'term_relationships.term_taxonomy_id')
-                ->where('term_relationships.object_id', '=', $wordpress_post->ID)
-                ->get();
-
-            foreach ($wordpress_posts_category as $wordpress_category) {
-                // @TODO Finish wordpress old category linking to new categories.
-                //$this->info('linking to ' . $wordpress_category->)
-            }
-
             if ($post->save()) {
                 $this->info(" - Added {$post->title}");
                 $this->post_mapping[$wordpress_post->ID] = $post->id;
+
+                // Need to link this posts categories to the appropriate categories in our system
+                $wordpress_post_categories = DB::connection('wordpress_import')->table('term_relationships')
+                    ->join('term_taxonomy', 'term_taxonomy.term_taxonomy_id', '=', 'term_relationships.term_taxonomy_id')
+                    ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                    ->where('term_taxonomy.taxonomy', '=', 'category')
+                    ->where('term_relationships.object_id', '=', $wordpress_post->ID)
+                    ->get();
+
+                foreach ($wordpress_post_categories as $wordpress_category) {
+                    $this->info(' -- linking to category ' . $wordpress_category->name);
+                    $post->category()->attach($this->category_mapping[$wordpress_category->term_id]);
+                }
+
             } else {
                 $this->info(" -- WARNING: Unable to add {$post->title}");
             }

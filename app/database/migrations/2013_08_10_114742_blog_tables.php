@@ -37,6 +37,8 @@ class BlogTables extends Migration
 
             $table->boolean('allow_comments')->default(true);   // If comments are allowed on this post.
 
+            $table->boolean('is_page')->default(false);         // Flag to determine if post is to behave as a static page
+
             $table->timestamps();                               // created/updated at timestamps.
 
             $table->foreign('user_id')->references('id')->on('users')
