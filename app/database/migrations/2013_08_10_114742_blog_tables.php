@@ -103,7 +103,7 @@ class BlogTables extends Migration
                 ->onDelete('cascade');
         });
 
-        Schema::create('category_post', function ($table) {
+        Schema::create('category_post', function($table) {
             $table->integer('category_id')->unsigned();
             $table->integer('post_id')->unsigned();
 
@@ -126,14 +126,12 @@ class BlogTables extends Migration
         });
 
         Schema::create('revisions', function($table) {
-            $table->increments('id')->unsigned();   // Revision Id
-            $table->integer('post_id')->unsigned(); // Post Id
-            $table->text('post_data');              // JSON encoded data of post record
+            $table->increments('id')->unsigned();    // Revision Id
+            $table->integer('model_id')->unsigned(); // Model Object's Id
+            $table->string('model');                 // Model Object's Name/Class
+            $table->text('model_data');              // JSON encoded data of Model Object's Record
 
             $table->timestamps();
-
-            $table->foreign('post_id')->references('id')->on('posts')
-                ->onDelete('cascade');
         });
     }
 
@@ -146,9 +144,6 @@ class BlogTables extends Migration
     {
         Schema::drop('settings');
 
-        Schema::table('revisions', function($table) {
-            $table->dropForeign('revisions_post_id_foreign');
-        });
         Schema::drop('revisions');
 
         Schema::table('category_post', function ($table) {

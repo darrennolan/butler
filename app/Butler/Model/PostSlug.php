@@ -1,4 +1,6 @@
-<?php
+<?php namespace Butler\Model;
+
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class PostSlug extends Eloquent
 {
@@ -7,6 +9,6 @@ class PostSlug extends Eloquent
 
     public function post ()
     {
-        return $this->belongsTo('Post');
+        return $this->belongsTo('Butler\Model\Post');
     }
 }

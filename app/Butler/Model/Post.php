@@ -1,4 +1,6 @@
-<?php
+<?php namespace Butler\Model;
+
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Post extends Eloquent
 {
@@ -7,17 +9,17 @@ class Post extends Eloquent
 
     public function user()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('Butler\Model\User');
     }
 
     public function comments()
     {
-        return $this->hasMany('Comment');
+        return $this->hasMany('Butler\Model\Comment');
     }
 
     public function category()
     {
-        return $this->belongsToMany('Category', 'category_post')->withTimestamps();
+        return $this->belongsToMany('Butler\Model\Category', 'category_post')->withTimestamps();
     }
 
     public function anchorUrl()

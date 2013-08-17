@@ -1,11 +1,13 @@
-<?php
+<?php namespace Butler\Command;
 
-/**
- * Use Classes
- */
-use Illuminate\Console\Command;
+use Butler\Model;
 
-class ImportWordpress extends Command
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Console\Command as IlluminateCommand;
+
+class ImportWordpress extends IlluminateCommand
 {
 
     /**
@@ -45,12 +47,12 @@ class ImportWordpress extends Command
         Config::set(
             'database.connections.wordpress_import',
             array(
-                'driver'   => 'mysql',
-                'host'     => $this->ask("Hostname [localhost]:     ", 'localhost'),
-                'database' => $this->ask("Database Name [blog_old]: ", 'blog_old'),
-                'username' => $this->ask("Username [root]:          ", 'root'),
-                'password' => $this->ask("Password []:              ", ''),
-                'prefix'   => $this->ask("Table Prefix [wp_]:       ", 'wp_'),
+                'driver'    => 'mysql',
+                'host'      => $this->ask("Hostname [localhost]:             ", 'localhost'),
+                'database'  => $this->ask("Database Name [dnolan_wordpress]: ", 'wordpress'),
+                'username'  => $this->ask("Username [root]:                  ", 'root'),
+                'password'  => $this->ask("Password []:                      ", ''),
+                'prefix'    => $this->ask("Table Prefix [wp_]:               ", 'wp_'),
                 'charset'   => 'utf8',
                 'collation' => 'utf8_unicode_ci',
             )
@@ -113,7 +115,7 @@ class ImportWordpress extends Command
         $wordpress_users = DB::connection('wordpress_import')->table('users')->get();
 
         foreach ($wordpress_users as $wordpress_user) {
-            $user = new User();
+            $user = new Model\User();
             $user->email        = $wordpress_user->user_email;
             $user->password     = Hash::make($wordpress_user->user_email);
             $user->display_name = $wordpress_user->display_name;
@@ -138,7 +140,7 @@ class ImportWordpress extends Command
         $categories = array();
 
         foreach ($wordpress_taxonomy as $wordpress_category) {
-            $category = new Category();
+            $category = new Model\Category();
             $category->name = $wordpress_category->name;
 
             if ($category->save()) {
@@ -174,7 +176,7 @@ class ImportWordpress extends Command
             ->where('post_type', '=', 'post')->get();
 
         foreach ($wordpress_posts as $wordpress_post) {
-            $post = new Post();
+            $post = new Model\Post();
             $post->user_id = $this->user_mapping[$wordpress_post->post_author];
             $post->title   = $wordpress_post->post_title;
             $post->content = $wordpress_post->post_content;
@@ -265,7 +267,7 @@ class ImportWordpress extends Command
 
             if (isset($this->post_mapping[$wordpress_revision->post_parent])) {
 
-                $revision = new PostRevision();
+                $revision = new Model\PostRevision();
                 $revision->post_id = $this->post_mapping[$wordpress_revision->post_parent];
                 $revision->user_id = $this->user_mapping[$wordpress_revision->post_author];
                 $revision->title   = $wordpress_revision->post_title;
@@ -295,7 +297,7 @@ class ImportWordpress extends Command
             ->where('post_type', '=', 'page')->get();
 
         foreach ($wordpress_pages as $wordpress_page) {
-            $page = new Page();
+            $page = new Model\Page();
             $page->user_id = $this->user_mapping[$wordpress_page->post_author];
             $page->title   = $wordpress_page->post_title;
             $page->content = $wordpress_page->post_content;
@@ -368,7 +370,7 @@ class ImportWordpress extends Command
 
             if (isset($this->page_mapping[$wordpress_revision->post_parent])) {
 
-                $revision = new PageRevision();
+                $revision = new Model\PageRevision();
                 $revision->page_id = $this->page_mapping[$wordpress_revision->post_parent];
                 $revision->user_id = $this->user_mapping[$wordpress_revision->post_author];
                 $revision->title   = $wordpress_revision->post_title;
@@ -401,7 +403,7 @@ class ImportWordpress extends Command
         $comments = array();
 
         foreach ($wordpress_comments as $wordpress_comment) {
-            $comment = new Comment();
+            $comment = new Model\Comment();
             $comment->post_id = $this->post_mapping[$wordpress_comment->comment_post_ID];
 
             if ($wordpress_comment->user_id == 0) {
