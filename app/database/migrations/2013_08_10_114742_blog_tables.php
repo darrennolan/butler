@@ -20,6 +20,7 @@ class BlogTables extends Migration
             $table->text('excerpt')->nullable();                // Short Excerpt for the post
 
             $table->datetime('post_at')->nullable();            // Where not null, post will display at this point in the future.
+            $table->datetime('post_to')->nullable();            // Where not null, post will display until this point in the future.
 
             $table->enum('visibility',
                 array('public', 'private')
@@ -123,6 +124,17 @@ class BlogTables extends Migration
 
             $table->timestamps();                   // created/updated at timestamps
         });
+
+        Schema::create('revisions', function($table) {
+            $table->increments('id')->unsigned();   // Revision Id
+            $table->integer('post_id')->unsigned(); // Post Id
+            $table->text('post_data');              // JSON encoded data of post record
+
+            $table->timestamps();
+
+            $table->foreign('post_id')->references('id')->on('posts')
+                ->onDelete('cascade');
+        });
     }
 
     /**
@@ -133,6 +145,11 @@ class BlogTables extends Migration
     public function down()
     {
         Schema::drop('settings');
+
+        Schema::table('revisions', function($table) {
+            $table->dropForeign('revisions_post_id_foreign');
+        });
+        Schema::drop('revisions');
 
         Schema::table('category_post', function ($table) {
             $table->dropForeign('category_post_post_id_foreign');
