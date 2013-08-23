@@ -6,13 +6,11 @@ class UserTableSeeder extends Seeder {
     {
         DB::table('users')->delete();
 
-        $password = Hash::make('password');
-
-        User::create(array(
-            'email' => 'blogger@butler.com',
-            'password' => $password,
-            'first_name' => 'Blog',
-            'last_name' => 'Man',
+        Butler\Model\User::create(array(
+            'email'        => 'blogger@butler.com',
+            'password'     => 'password',
+            'first_name'   => 'Blog',
+            'last_name'    => 'Man',
             'display_name' => 'Blogo',
         ));
     }

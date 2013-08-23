@@ -1,8 +1,6 @@
 <?php namespace Butler\Model;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
-
-class Category extends Eloquent
+class Category extends Base
 {
     protected $table   = 'categories';
     public $timestamps = true;

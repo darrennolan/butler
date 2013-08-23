@@ -1,25 +1,27 @@
 <?php namespace Butler\Model;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
-
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
+class User extends Base implements UserInterface, RemindableInterface
+{
     protected $table = 'users';
-
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
     protected $hidden = array('password');
+
+    protected static $rules = array(
+        'email'        => 'required|email|unique:users',
+        'password'     => 'required|min:5',
+        'first_name'   => '',
+        'last_name'    => '',
+        'display_name' => '',
+        'url'          => 'url',
+        'status'       => 'in:active,pending,trash,disabled',
+    );
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
 
     /**
      * Get the unique identifier for the user.
@@ -50,5 +52,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     {
         return $this->email;
     }
+
+
 
 }

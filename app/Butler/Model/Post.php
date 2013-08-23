@@ -1,8 +1,6 @@
 <?php namespace Butler\Model;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
-
-class Post extends Eloquent
+class Post extends Base
 {
     protected $table   = 'posts';
     public $timestamps = true;

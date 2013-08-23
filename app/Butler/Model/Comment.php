@@ -1,8 +1,6 @@
 <?php namespace Butler\Model;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
-
-class Comment extends Eloquent
+class Comment extends Base
 {
     protected $table   = 'comments';
     public $timestamps = true;

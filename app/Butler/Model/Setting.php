@@ -1,8 +1,6 @@
 <?php namespace Butler\Model;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
-
-class Setting extends Eloquent
+class Setting extends Base
 {
     protected $table   = 'settings';
     public $timestamps = true;
