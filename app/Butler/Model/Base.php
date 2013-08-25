@@ -7,7 +7,8 @@ abstract class Base extends Eloquent
 {
     protected static $rules = array();
 
-    public $validation_errors;
+    public $valid;
+    public static $validator;
 
     public function validate()
     {
@@ -17,7 +18,29 @@ abstract class Base extends Eloquent
             return true;
         }
 
-        $this->validation_errors = $v->messages();
+        $this->validator = $v;
+        return false;
+    }
+
+    static public function validator(array $input = array(), array $use_rules = array())
+    {
+        if (count($input) && count($use_rules)) {
+            // Use given input, and only on selected rules
+            $v = Validator::make($input, array_only(static::$rules, $use_rules));
+
+        } elseif (count($input)) {
+            // Use given input on all rules
+            $v = Validator::make($input, static::$rules);
+
+        } else {
+            return false; // We have no input to validate. Assume failed.
+        }
+
+        if ($v->passes()) {
+            return true;
+        }
+
+        static::$validator = $v;
         return false;
     }
 }

@@ -3,6 +3,8 @@
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
+use Illuminate\Support\Facades\Hash;
+
 class User extends Base implements UserInterface, RemindableInterface
 {
     protected $table = 'users';
@@ -11,9 +13,9 @@ class User extends Base implements UserInterface, RemindableInterface
     protected static $rules = array(
         'email'        => 'required|email|unique:users',
         'password'     => 'required|min:5',
-        'first_name'   => '',
-        'last_name'    => '',
-        'display_name' => '',
+        'first_name'   => 'min:1|max:255',
+        'last_name'    => 'min:1|max:255',
+        'display_name' => 'min:1|max:255',
         'url'          => 'url',
         'status'       => 'in:active,pending,trash,disabled',
     );

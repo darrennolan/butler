@@ -1,28 +1,135 @@
 <?php
 
 use Way\Tests\Factory;
+use Way\Tests\DataStore;
 
 class UserTest extends TestCase
 {
     use Way\Tests\ModelHelpers;
 
-    public function setUp()
+    public function testHashesPasswordWhenSet()
     {
-        parent::setUp();
+        Hash::shouldReceive('make')->once()->andReturn('hashed');
 
-        Artisan::call('migrate');
+        $user = new Butler\Model\User;
+        $user->password = 'foo';
 
-        $this->seed();
+        $this->assertEquals('hashed', $user->password);
     }
 
-    public function testDummyToEnsureSetUpRuns()
+    public function testValidateEmailValid()
     {
-        $this->assertTrue(true);
+        $data_store = new DataStore;
+        $input = array('email' => $data_store->getEmail());
+
+        $this->assertTrue(
+            Butler\Model\User::validator(
+                $input,
+                array_keys($input)
+            )
+        );
     }
 
-    public function testIsInvalidWithoutAValidEmail()
+    public function testValidateEmailInvalid()
     {
-        $user = Factory::make('Butler\Model\User', ['email' => 'test']);
+        $input = array('email' => 'peanut');
+
+        $this->assertFalse(
+            Butler\Model\User::validator(
+                $input,
+                array_keys($input)
+            )
+        );
+    }
+
+    public function testValidateUrlValid()
+    {
+        $input = array('url' => 'http://valid.domain.com');
+
+        $this->assertTrue(
+            Butler\Model\User::validator(
+                $input,
+                array_keys($input)
+            )
+        );
+    }
+
+    public function testValidateUrlInvalid()
+    {
+        $input = array('url' => 'peanut');
+
+        $this->assertFalse(
+            Butler\Model\User::validator(
+                $input,
+                array_keys($input)
+            )
+        );
+    }
+
+    public function testValidateStatus()
+    {
+        $valid_status = array(
+            'active',
+            'pending',
+            'trash',
+            'disabled',
+        );
+
+        $input = array(
+            'status' => $valid_status[array_rand($valid_status, 1)]
+        );
+
+        $this->assertTrue(
+            Butler\Model\User::validator(
+                $input,
+                array_keys($input)
+            )
+        );
+    }
+
+    public function testValidateStatusInvalid()
+    {
+        $input = array('status' => 'peanut');
+
+        $this->assertFalse(
+            Butler\Model\User::validator(
+                $input,
+                array_keys($input)
+            )
+        );
+    }
+
+    public function testValidUser()
+    {
+        $data_store = new DataStore;
+        $user = Factory::make(
+            'Butler\Model\User',
+            array(
+                'email'        => $data_store->getEmail(),
+                'password'     => 'password',
+                'first_name'   => $data_store->getName(),
+                'last_name'    => $data_store->getName(),
+                'display_name' => $data_store->getName(),
+                'url'          => 'http://valid-domain.com',
+                'status'       => 'active',
+            )
+        );
+
+        $this->assertValid($user);
+    }
+
+
+    public function testNotValidUser()
+    {
+        $user = Factory::make(
+            'Butler\Model\User',
+            array(
+                'email'  => 'foo',
+                'url'    => 'bar',
+                'status' => 'new-user',
+            )
+        );
+
         $this->assertNotValid($user);
     }
 }
