@@ -7,6 +7,13 @@ class UserTest extends TestCase
 {
     use Way\Tests\ModelHelpers;
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        Artisan::call('migrate');
+    }
+
     public function testHashesPasswordWhenSet()
     {
         Hash::shouldReceive('make')->once()->andReturn('hashed');
