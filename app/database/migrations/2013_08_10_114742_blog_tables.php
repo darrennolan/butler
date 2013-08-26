@@ -127,11 +127,15 @@ class BlogTables extends Migration
 
         Schema::create('revisions', function($table) {
             $table->increments('id')->unsigned();    // Revision Id
+            $table->integer('user_id')->unsigned();  // User Object's Id
             $table->integer('model_id')->unsigned(); // Model Object's Id
             $table->string('model');                 // Model Object's Name/Class
             $table->text('model_data');              // JSON encoded data of Model Object's Record
 
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade');
         });
     }
 
