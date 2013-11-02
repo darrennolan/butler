@@ -17,7 +17,7 @@ class Post extends Base
 
     public function revisions()
     {
-        return $this->morphMany('Revision', 'revisionable');
+        return $this->morphMany('Butler\Model\Revision', 'revisionable');
     }
 
     public function category()

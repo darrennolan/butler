@@ -1,4 +1,6 @@
 <?php
+use Butler\Model\Post;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,3 +14,21 @@
 */
 
 Route::get('/', 'Butler\Controller\HomeController@home');
+
+
+
+/*
+Route::get('revision', function() {
+
+    Auth::loginUsingId(5);
+
+    //DB::table('posts')->delete();
+
+    //$post = new Post;
+    $post = Post::whereTitle('hi')->first();
+    $post->title = "Dean is the catman!";
+    $post->save();
+    $post->title = "RAWR";
+    $post->save();
+});
+*/

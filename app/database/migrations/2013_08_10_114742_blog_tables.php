@@ -30,7 +30,7 @@ class BlogTables extends Migration
 
             $table->enum('status',
                 array('draft', 'pending_review', 'trash', 'published')
-            )->nullable();                                      // Defines if this post is ready to be displayed for viewing.
+            )->default('draft');                                // Defines if this post is ready to be displayed for viewing.
                                                                 // Draft - saved, but not yet posted.
                                                                 // Pending_review - Awaiting a user moderator to approve post.
                                                                 // Trash - Pending full delete, kept for historical purposes. Not shown.
@@ -130,7 +130,7 @@ class BlogTables extends Migration
             $table->integer('user_id')->unsigned();             // User Object's Id
             $table->integer('revisionable_id')->unsigned();     // Revisionable Object's Id
             $table->string('revisionable_type');                // Revisionable Object's Name/Class
-            $table->text('diff');                               // JSON encoded diff of Revisionable Object's Record
+            $table->text('record');                             // JSON encoded attributes of Revisionable Object's Record
 
             $table->timestamps();
 
