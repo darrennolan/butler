@@ -1,4 +1,6 @@
-<?php
+<?php namespace Butler\Controller;
+
+use Illuminate\Routing\Controllers\Controller;
 
 class BaseController extends Controller {
 

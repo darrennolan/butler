@@ -9,4 +9,9 @@ class Revision extends Base
     {
         return $this->belongsTo('Butler\Model\User');
     }
+
+    public function revisionable()
+    {
+        return $this->morphTo();
+    }
 }

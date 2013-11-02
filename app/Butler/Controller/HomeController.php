@@ -1,4 +1,4 @@
-<?php
+<?php namespace Butler\Controller;
 
 class HomeController extends BaseController {
 
@@ -15,10 +15,9 @@ class HomeController extends BaseController {
 	|
 	*/
 
-	public function showWelcome()
+	public function home()
 	{
-        return App::timezone();
-		return View::make('hello')->with('env', App::environment());
+		return \View::make('home')->with('env', \App::environment());
 	}
 
 }

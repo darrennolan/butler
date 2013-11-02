@@ -5,7 +5,7 @@ class Category extends Base
     protected $table   = 'categories';
     public $timestamps = true;
 
-    public function post()
+    public function posts()
     {
         return $this->hasMany('Butler\Model\Post');
     }
@@ -14,4 +14,10 @@ class Category extends Base
     {
         return $this->belongsToMany('Butler\Model\Category', 'parent_id');
     }
+
+    public function revisions()
+    {
+        return $this->morphMany('Revision', 'revisionable');
+    }
+
 }

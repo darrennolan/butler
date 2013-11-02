@@ -15,6 +15,11 @@ class Post extends Base
         return $this->hasMany('Butler\Model\Comment');
     }
 
+    public function revisions()
+    {
+        return $this->morphMany('Revision', 'revisionable');
+    }
+
     public function category()
     {
         return $this->belongsToMany('Butler\Model\Category', 'category_post')->withTimestamps();

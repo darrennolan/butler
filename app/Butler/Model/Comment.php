@@ -15,4 +15,9 @@ class Comment extends Base
         return $this->belongsToMany('Butler\Model\Comment', 'parent_id');
     }
 
+    public function revisions()
+    {
+        return $this->morphMany('Revision', 'revisionable');
+    }
+
 }
