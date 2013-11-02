@@ -126,11 +126,11 @@ class BlogTables extends Migration
         });
 
         Schema::create('revisions', function($table) {
-            $table->increments('id')->unsigned();    // Revision Id
-            $table->integer('user_id')->unsigned();  // User Object's Id
-            $table->integer('model_id')->unsigned(); // Model Object's Id
-            $table->string('model');                 // Model Object's Name/Class
-            $table->text('model_data');              // JSON encoded data of Model Object's Record
+            $table->increments('id')->unsigned();               // Revision Id
+            $table->integer('user_id')->unsigned();             // User Object's Id
+            $table->integer('revisionable_id')->unsigned();     // Revisionable Object's Id
+            $table->string('revisionable_type');                // Revisionable Object's Name/Class
+            $table->text('diff');                               // JSON encoded diff of Revisionable Object's Record
 
             $table->timestamps();
 

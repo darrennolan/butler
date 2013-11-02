@@ -11,7 +11,4 @@
 |
 */
 
-Route::get('/', function()
-{
-	return "Butler Blogger";
-});
+Route::get('/', 'Butler\Controller\HomeController@home');
