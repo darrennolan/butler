@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', 'Butler\Controller\HomeController@home');
+//Route::get('/', 'Butler\Controller\HomeController@home');
+
+Route::get('/', function() {
+    return Butler\Blog\Flow::homeDirective();
+});
 
 
 
