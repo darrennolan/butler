@@ -19,8 +19,8 @@ class BlogTables extends Migration
             $table->text('content')->nullable();                // Post Content
             $table->text('excerpt')->nullable();                // Short Excerpt for the post
 
-            $table->datetime('post_at')->nullable();            // Where not null, post will display at this point in the future.
-            $table->datetime('post_to')->nullable();            // Where not null, post will display until this point in the future.
+            $table->datetime('show_at')->nullable();            // Where not null, post will display at this point in the future.
+            $table->datetime('show_until')->nullable();         // Where not null, post will display until this point in the future.
 
             $table->enum('visibility',
                 array('public', 'private')

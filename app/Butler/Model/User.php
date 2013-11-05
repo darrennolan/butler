@@ -20,6 +20,11 @@ class User extends Base implements UserInterface, RemindableInterface
         'status'       => 'in:active,pending,trash,disabled',
     );
 
+    public function posts()
+    {
+        return $this->hasMany('Butler\Model\Post');
+    }
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
