@@ -1,6 +1,10 @@
 <?php
-use Butler\Model\Post;
-use Illuminate\Support\Facades\Auth;
+Illuminate\Foundation\AliasLoader::getInstance()->alias('ButlerFlow', 'Butler\Facades\Flow');
+
+$subscriber = new Butler\Event\Post;
+Event::subscribe($subscriber);
+$subscriber = new Butler\Event\Paginate;
+Event::subscribe($subscriber);
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +20,11 @@ use Illuminate\Support\Facades\Auth;
 //Route::get('/', 'Butler\Controller\HomeController@home');
 
 Route::get('/', function() {
-    return Butler\Blog\Flow::homeDirective();
+
+    $homeDirective = ButlerFlow::homeDirective();
+
+    var_dump($homeDirective->count());
+
 });
 
 
@@ -29,7 +37,7 @@ Route::get('revision', function() {
     //DB::table('posts')->delete();
 
     //$post = new Post;
-    $post = Post::whereTitle('hi')->first();
+    $post = Butler\Model\Post::whereTitle('hi')->first();
     $post->title = "Dean is the catman!";
     $post->save();
     $post->title = "RAWR";

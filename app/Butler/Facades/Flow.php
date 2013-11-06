@@ -1,6 +1,6 @@
 <?php namespace Butler\Facades;
 
-use Illuminate\Support\Facades;
+use Illuminate\Support\Facades\Facade;
 
 class Flow extends Facade {
 
@@ -9,6 +9,6 @@ class Flow extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'flow'; }
+    protected static function getFacadeAccessor() { return 'Butler\Controller\Flow'; }
 
 }

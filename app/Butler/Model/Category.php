@@ -15,9 +15,4 @@ class Category extends Base
         return $this->belongsToMany('Butler\Model\Category', 'parent_id');
     }
 
-    public function revisions()
-    {
-        return $this->morphMany('Revision', 'revisionable');
-    }
-
 }
