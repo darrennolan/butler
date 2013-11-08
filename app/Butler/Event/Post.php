@@ -23,7 +23,8 @@ class Post
             $query->where('visibility', '=', 'public')
                 ->where('show_at', '<=', $current_date_time)
                 ->whereNull('show_until')
-                ->orWhere('show_until', '>=', $current_date_time);
+                ->orWhere('show_until', '>=', $current_date_time)
+                ->orderBy('show_at', 'DESC');
         }
 
         return $query;

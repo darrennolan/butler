@@ -10,7 +10,7 @@ class Flow
 
     private $is_page = false;
 
-    private $page = 0;
+    private $page;
 
     /**
      * Works out what the home page is.
@@ -18,40 +18,28 @@ class Flow
      */
     public function homeDirective()
     {
-        return $this->thePosts();
+        //return $this->thePosts();
     }
 
     /**
      * Returns a collection of posts.
      * @return [type] [description]
      */
-    public function thePosts()
+    public function thePosts(Boolean $reset = null)
     {
-        $this->posts = Event::fire('butler.flow.thePosts.makeBuilder', $this->posts);
-        $this->posts = Event::fire('butler.flow.thePosts', $this->posts);
-        $this->posts = Event::fire('butler.flow.thePosts.makeCollection', $this->posts);
+        if ($this->posts === null || $reset == true) {
+            $this->posts = Event::until('butler.flow.thePosts.makeBuilder', $this->posts);
+            $this->posts = Event::until('butler.flow.thePosts', $this->posts);
+            $this->posts = Event::until('butler.flow.thePosts.makeCollection', $this->posts);
+        }
 
         return $this->posts;
     }
 
-    public function getPageNumber()
+    public function getPage()
     {
-        $this->page = Event::fire('butler.flow.getPageNumber', $this->page);
+        $this->page = Event::until('butler.flow.getPage', $this->page);
 
         return $this->page;
-    }
-
-    public function isPage()
-    {
-        $this->is_page = Event::fire('butler.flow.getPageNumber', $this->is_page);
-
-        return $this->is_page;
-    }
-
-    public function isPost()
-    {
-        $this->is_page = Event::fire('butler.flow.getPageNumber', $this->is_page);
-
-        return ! $this->is_page;
     }
 }

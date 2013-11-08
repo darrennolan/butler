@@ -20,11 +20,8 @@ Event::subscribe($subscriber);
 //Route::get('/', 'Butler\Controller\HomeController@home');
 
 Route::get('/', function() {
-
-    $homeDirective = ButlerFlow::homeDirective();
-
-    var_dump($homeDirective->count());
-
+    require app_path() . '/views/themes/default/functions.php';
+    return View::make('themes.default.index');
 });
 
 

@@ -1,6 +1,15 @@
 <?php
 
-class BasicTest extends TestCase {
+class BasicTest extends TestCase
+{
+    public function setUp()
+    {
+        parent::setUp();
+
+        Artisan::call('migrate');
+
+        $this->seed();
+    }
 
 	/**
 	 * A basic functional test example.

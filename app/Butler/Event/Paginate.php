@@ -2,11 +2,16 @@
 
 class Paginate
 {
+    private $currentPage = 0;
     private static $per_page = 10;
 
     public function thePostsMakeCollection($query)
     {
-        return $query->take( static::getPerPage() )->get();
+        if ($query instanceof \Illuminate\Database\Eloquent\Builder) {
+            return $query->paginate( static::getPerPage() );
+        } else {
+            return $query;
+        }
     }
 
     public function getPerPage()
