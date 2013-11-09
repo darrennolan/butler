@@ -1,10 +1,4 @@
 <?php
-Illuminate\Foundation\AliasLoader::getInstance()->alias('ButlerFlow', 'Butler\Facades\Flow');
-
-$subscriber = new Butler\Event\Post;
-Event::subscribe($subscriber);
-$subscriber = new Butler\Event\Paginate;
-Event::subscribe($subscriber);
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +14,7 @@ Event::subscribe($subscriber);
 //Route::get('/', 'Butler\Controller\HomeController@home');
 
 Route::get('/', function() {
-    require app_path() . '/views/themes/default/functions.php';
-    return View::make('themes.default.index');
+    return View::make( ButlerHTML::themeView() );
 });
 
 

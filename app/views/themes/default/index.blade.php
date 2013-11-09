@@ -3,8 +3,12 @@
 @section('content')
 
 <div>
+    <h1>{{ ButlerHTML::sitename() }}</h1>
+
+    {{ ButlerHTML::homepage() }}
+
     @foreach (ButlerFlow::thePosts() as $post)
-        <h1>{{$post->title}}</h1>
+        <h2>{{$post->title}}</h2>
         <div class="the-content">
             {{$post->content}}
         </div>
