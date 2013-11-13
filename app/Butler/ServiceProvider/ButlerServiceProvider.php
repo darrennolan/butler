@@ -1,6 +1,8 @@
 <?php namespace Butler\ServiceProvider;
 
 use Butler\Event as ButlerEvent;
+use Butler\Theme\Manager as ButlerManager;
+
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Event;
 
@@ -32,13 +34,13 @@ class ButlerServiceProvider extends \Illuminate\Support\ServiceProvider {
     public function register()
     {
         AliasLoader::getInstance()->alias('ButlerFlow', 'Butler\Facades\Flow');
+        AliasLoader::getInstance()->alias('ButlerTheme', 'Butler\Facades\Theme');
         AliasLoader::getInstance()->alias('ButlerHTML', 'Butler\Facades\HTML');
-        /*
-        $this->app['butler'] = $this->app->share(function($app)
+
+        $this->app['ButlerTheme'] = $this->app->share(function($app)
         {
-            return new something;
+            return new ButlerTheme($app);
         });
-        */
     }
 
     /**

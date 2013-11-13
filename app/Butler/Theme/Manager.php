@@ -2,16 +2,27 @@
 
 class Manager
 {
-    private $theme;
+    private $theme_name;
 
-    public function __construct()
+    private $themes_location = 'themes';
+
+    private $theme_options;
+
+    public function __construct($theme_name = 'default')
     {
-        $this->theme = new \Butler\Theme\Theme('default');
+        $this->theme_name = $theme_name;
+
+        $this->registerThemeLocation();
     }
 
-    public function loadTheme(\Butler\Theme\Theme $theme)
+    public function registerThemeLocation()
     {
-        $this->theme = $theme;
+        \Config::set('view.paths', \Config::get('view.paths') + array(public_path() . '/' . $this->themes_location));
+    }
+
+    public function loadTheme($theme_name)
+    {
+        $this->theme_name = $theme_name;
     }
 
     public function getThemes()
@@ -22,16 +33,18 @@ class Manager
         );
     }
 
-    public function __call($name, $arguments)
+    public function viewLocationBase()
     {
-        if (method_exists($this->theme, $name)) {
+        return 'themes.' . $this->theme_name;
+    }
 
-            return call_user_func_array(array($this->theme, $name), $arguments);
+    public function viewDefault()
+    {
+        return $this->viewLocationBase() . '.' . 'index';
+    }
 
-        } else {
-
-            throw new \Exception('Method ' . $name . ' not found in Butler\Theme\Manager or ' . get_class($this->theme));
-
-        }
+    public function urlThemeBase()
+    {
+        return 'resources/' . $this->theme_name;
     }
 }
