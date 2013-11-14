@@ -37,10 +37,12 @@ class ButlerServiceProvider extends \Illuminate\Support\ServiceProvider {
         AliasLoader::getInstance()->alias('ButlerTheme', 'Butler\Facades\Theme');
         AliasLoader::getInstance()->alias('ButlerHTML', 'Butler\Facades\HTML');
 
+        /*
         $this->app['ButlerTheme'] = $this->app->share(function($app)
         {
             return new ButlerTheme($app);
         });
+        */
     }
 
     /**

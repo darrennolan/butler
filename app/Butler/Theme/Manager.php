@@ -1,28 +1,39 @@
 <?php namespace Butler\Theme;
 
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\File;
+
 class Manager
 {
     private $theme_name;
 
     private $themes_location = 'themes';
 
-    private $theme_options;
+    private $theme_settings = array(
+        'default_page' => 'index'
+    );
 
     public function __construct($theme_name = 'default')
     {
-        $this->theme_name = $theme_name;
-
         $this->registerThemeLocation();
+
+        $this->loadTheme($theme_name);
     }
 
     public function registerThemeLocation()
     {
-        \Config::set('view.paths', \Config::get('view.paths') + array(public_path() . '/' . $this->themes_location));
+        View::addLocation(public_path() . '/' . $this->themes_location);
     }
 
     public function loadTheme($theme_name)
     {
         $this->theme_name = $theme_name;
+
+        $functions_file_path = public_path() . '/' . $this->themes_location . '/' . $this->theme_name . '/functions.php';
+
+        if (File::exists($functions_file_path)) {
+            require_once($functions_file_path);
+        }
     }
 
     public function getThemes()
@@ -33,18 +44,16 @@ class Manager
         );
     }
 
-    public function viewLocationBase()
+    public function setSettings($theme_settings = array())
     {
-        return 'themes.' . $this->theme_name;
+        $this->theme_settings = array_merge($this->theme_settings, $theme_settings);
     }
 
-    public function viewDefault()
+    public function make($view = false, $data = array(), $mergeData = array())
     {
-        return $this->viewLocationBase() . '.' . 'index';
-    }
-
-    public function urlThemeBase()
-    {
-        return 'resources/' . $this->theme_name;
+        if (!$view) {
+            $view = $this->theme_settings['default_page'];
+        }
+        return View::make($this->theme_name . '.' . $view, $data, $mergeData);
     }
 }

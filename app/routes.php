@@ -14,7 +14,7 @@
 //Route::get('/', 'Butler\Controller\HomeController@home');
 
 Route::get('/', function() {
-    return View::make( ButlerHTML::themeView() );
+    return ButlerHTML::make();
 });
 
 
