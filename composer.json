@@ -5,6 +5,7 @@
     "license": "MIT",
     "require": {
         "laravel/framework": "4.0.*",
+        "desmart/pagination": "1.0.*",
         "mockery/mockery": "dev-master",
         "way/laravel-test-helpers": "dev-master",
         "way/phpunit-wrappers": "dev-master"

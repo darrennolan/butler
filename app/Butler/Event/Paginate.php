@@ -2,26 +2,26 @@
 
 class Paginate
 {
-    private $currentPage = 0;
+    private static $current_page = 1;
     private static $per_page = 10;
 
     public function thePostsMakeCollection($query)
     {
         if ($query instanceof \Illuminate\Database\Eloquent\Builder) {
-            return $query->paginate( static::getPerPage() );
+            return $query->paginate( static::$per_page );
         } else {
             return $query;
         }
     }
 
-    public function getPerPage()
-    {
-        return static::$per_page;
-    }
-
     public static function setPerPage($per_page)
     {
         static::$per_page = $per_page;
+    }
+
+    public static function setPage($current_page)
+    {
+        static::$current_page = $current_page;
     }
 
     /**

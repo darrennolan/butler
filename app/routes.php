@@ -13,7 +13,8 @@
 
 //Route::get('/', 'Butler\Controller\HomeController@home');
 
-Route::get('/', function() {
+Route::get('/{page?}', function($pageNumber = 1) {
+    Butler\Event\Paginate::setPage($pageNumber);
     return ButlerHTML::make();
 });
 
