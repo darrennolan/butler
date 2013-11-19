@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
 
 class Manager
 {
@@ -29,10 +30,10 @@ class Manager
     {
         $this->theme_name = $theme_name;
 
-        $functions_file_path = public_path() . '/' . $this->themes_location . '/' . $this->theme_name . '/functions.php';
+        $bootstrap_file_path = public_path() . '/' . $this->themes_location . '/' . $this->theme_name . '/bootstrap.php';
 
-        if (File::exists($functions_file_path)) {
-            require_once($functions_file_path);
+        if (File::exists($bootstrap_file_path)) {
+            require_once($bootstrap_file_path);
         }
     }
 
@@ -55,5 +56,10 @@ class Manager
             $view = $this->theme_settings['default_page'];
         }
         return View::make($this->theme_name . '.' . $view, $data, $mergeData);
+    }
+
+    public function themeUrl()
+    {
+        return URL::to('themes/' . $this->theme_name);
     }
 }

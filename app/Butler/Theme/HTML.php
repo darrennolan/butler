@@ -9,19 +9,19 @@ class HTML
         $this->theme_manager = $theme_manager;
     }
 
-    public function sitename()
+    public function pageClasses()
+    {
+        return 'home to-do';
+    }
+
+    public function siteName()
     {
         return 'Butler';
     }
 
-    public function homepage()
+    public function siteHome()
     {
-        return 'homepage';
-    }
-
-    public function butlerhome()
-    {
-        return 'butlerhome';
+        return \URL::to('/');
     }
 
     public function __call($name, $arguments)
