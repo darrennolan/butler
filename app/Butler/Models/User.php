@@ -1,4 +1,4 @@
-<?php namespace Butler\Model;
+<?php namespace Butler\Models;
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;

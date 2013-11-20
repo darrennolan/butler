@@ -9,6 +9,6 @@ class Flow extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'Butler\Controller\Flow'; }
+    protected static function getFacadeAccessor() { return 'Butler\Controllers\Flow'; }
 
 }

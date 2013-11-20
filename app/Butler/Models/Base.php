@@ -1,4 +1,4 @@
-<?php namespace Butler\Model;
+<?php namespace Butler\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Support\Facades\Validator;

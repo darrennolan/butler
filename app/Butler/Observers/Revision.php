@@ -1,6 +1,6 @@
-<?php namespace Butler\Observer;
+<?php namespace Butler\Observers;
 
-use Butler\Model;
+use Butler\Models;
 use Illuminate\Support\Facades\Auth;
 
 class Revision {
@@ -14,7 +14,7 @@ class Revision {
             if (static::$disabled) return true;
 
             if (count($revisionable->getDirty()) > 0) {
-                $revision          = new Model\Revision;
+                $revision          = new Models\Revision;
                 $revision->user_id = Auth::user()->id;
                 $revision->record  = json_encode($revisionable->getOriginal());
 

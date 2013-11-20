@@ -1,6 +1,6 @@
-<?php namespace Butler\Controller;
+<?php namespace Butler\Controllers;
 
-class HomeController extends BaseController {
+class Home extends BaseController {
 
 	/*
 	|--------------------------------------------------------------------------

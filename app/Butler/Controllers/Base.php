@@ -1,8 +1,8 @@
-<?php namespace Butler\Controller;
+<?php namespace Butler\Controllers;
 
 use Illuminate\Routing\Controllers\Controller;
 
-class BaseController extends Controller {
+class Base extends Controller {
 
 	/**
 	 * Setup the layout used by the controller.

@@ -1,4 +1,4 @@
-<?php namespace Butler\Model;
+<?php namespace Butler\Models;
 
 class Category extends Base
 {

@@ -1,4 +1,4 @@
-<?php namespace Butler\Command;
+<?php namespace Butler\Commands;
 
 use Butler\Model;
 

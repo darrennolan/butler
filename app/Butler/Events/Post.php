@@ -1,14 +1,14 @@
-<?php namespace Butler\Event;
+<?php namespace Butler\Events;
 
 use DateTime;
-use Butler\Model;
+use Butler\Models;
 
 class Post
 {
     public function thePostsBuilder($builder)
     {
         if ( ! $builder) {
-            $builder = Model\Post::query();
+            $builder = Models\Post::query();
         }
 
         return $builder;
@@ -38,7 +38,7 @@ class Post
      */
     public function subscribe($events)
     {
-        $events->listen('butler.flow.thePosts.makeBuilder', 'Butler\Event\Post@thePostsBuilder', 5);
-        $events->listen('butler.flow.thePosts', 'Butler\Event\Post@thePosts', 5);
+        $events->listen('butler.flow.thePosts.makeBuilder', 'Butler\Events\Post@thePostsBuilder', 5);
+        $events->listen('butler.flow.thePosts', 'Butler\Events\Post@thePosts', 5);
     }
 }

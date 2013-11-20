@@ -3,7 +3,7 @@
 /**
  * Theme Specific Settings, Event Hooks and Functions
  */
-Butler\Event\Paginate::setPerPage(5);
+Butler\Events\Paginate::setPerPage(5);
 
 ButlerTheme::setSettings(
     array(

@@ -1,4 +1,4 @@
-<?php namespace Butler\Event;
+<?php namespace Butler\Events;
 
 class Paginate
 {
@@ -32,6 +32,6 @@ class Paginate
      */
     public function subscribe($events)
     {
-        $events->listen('butler.flow.thePosts.makeCollection', 'Butler\Event\Paginate@thePostsMakeCollection', 5);
+        $events->listen('butler.flow.thePosts.makeCollection', 'Butler\Events\Paginate@thePostsMakeCollection', 5);
     }
 }

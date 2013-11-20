@@ -1,4 +1,4 @@
-<?php namespace Butler\Controller;
+<?php namespace Butler\Controllers;
 
 use DateTime;
 use Butler\Model;

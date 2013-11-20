@@ -14,7 +14,7 @@
 //Route::get('/', 'Butler\Controller\HomeController@home');
 
 Route::get('/{page?}', function($pageNumber = 1) {
-    Butler\Event\Paginate::setPage($pageNumber);
+    Butler\Events\Paginate::setPage($pageNumber);
     return ButlerHTML::make();
 });
 

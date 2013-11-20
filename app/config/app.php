@@ -114,7 +114,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
-        'Butler\ServiceProvider\ButlerServiceProvider',
+        'Butler\ButlerServiceProvider',
 
 	),
 

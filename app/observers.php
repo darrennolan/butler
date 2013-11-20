@@ -1,7 +1,7 @@
 <?php
 
-use Butler\Model;
-use Butler\Observer;
+use Butler\Models;
+use Butler\Observers;
 
 // Butler model observers
-Model\Post::observe(new Observer\Revision);
+Models\Post::observe(new Observers\Revision);
