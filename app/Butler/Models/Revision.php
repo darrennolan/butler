@@ -7,7 +7,7 @@ class Revision extends Base
 
     public function user()
     {
-        return $this->belongsTo('Butler\Model\User');
+        return $this->belongsTo('Butler\Models\User');
     }
 
     public function revisionable()

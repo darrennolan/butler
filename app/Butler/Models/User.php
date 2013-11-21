@@ -2,7 +2,6 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
-
 use Illuminate\Support\Facades\Hash;
 
 class User extends Base implements UserInterface, RemindableInterface
@@ -22,7 +21,7 @@ class User extends Base implements UserInterface, RemindableInterface
 
     public function posts()
     {
-        return $this->hasMany('Butler\Model\Post');
+        return $this->hasMany('Butler\Models\Post');
     }
 
     public function setPasswordAttribute($password)

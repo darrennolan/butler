@@ -1,17 +1,24 @@
 <?php namespace Butler\Events;
 
+use Butler\Facades\Flow as ButlerFlow;
+
 class Paginate
 {
-    private static $current_page = 1;
     private static $per_page = 10;
 
     public function thePostsMakeCollection($query)
     {
         if ($query instanceof \Illuminate\Database\Eloquent\Builder) {
-            return $query->paginate( static::$per_page );
-        } else {
-            return $query;
+
+            if ( ButlerFlow::currentRouteName() ) {
+                return $query->paginate( static::$per_page )->route( ButlerFlow::currentRouteName() );
+            } else {
+                return $query->paginate( static::$per_page );
+            }
+
         }
+
+        return $query;
     }
 
     public static function setPerPage($per_page)
