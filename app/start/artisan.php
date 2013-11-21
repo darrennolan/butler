@@ -11,4 +11,4 @@
 |
 */
 
-Artisan::add(new Butler\Command\ImportWordpress);
+Artisan::add(new Butler\Commands\ImportWordpress);
