@@ -22,7 +22,7 @@ class User extends Base implements UserInterface, RemindableInterface
 
     public function posts()
     {
-        return $this->hasMany('Butler\Model\Post');
+        return $this->hasMany('Butler\Models\Post');
     }
 
     public function setPasswordAttribute($password)

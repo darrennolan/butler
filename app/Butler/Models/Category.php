@@ -7,12 +7,12 @@ class Category extends Base
 
     public function posts()
     {
-        return $this->hasMany('Butler\Model\Post');
+        return $this->hasMany('Butler\Models\Post');
     }
 
     public function categories()
     {
-        return $this->belongsToMany('Butler\Model\Category', 'parent_id');
+        return $this->belongsToMany('Butler\Models\Category', 'parent_id');
     }
 
 }

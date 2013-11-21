@@ -7,11 +7,11 @@ class Comment extends Base
 
     public function post()
     {
-        return $this->belongsTo('Butler\Model\Post');
+        return $this->belongsTo('Butler\Models\Post');
     }
 
     public function comments()
     {
-        return $this->belongsToMany('Butler\Model\Comment', 'parent_id');
+        return $this->belongsToMany('Butler\Models\Comment', 'parent_id');
     }
 }

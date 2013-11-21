@@ -7,7 +7,7 @@ class PostSlug extends Base
 
     public function post()
     {
-        return $this->belongsTo('Butler\Model\Post');
+        return $this->belongsTo('Butler\Models\Post');
     }
 
     public function revisions()

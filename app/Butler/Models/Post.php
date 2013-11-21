@@ -7,22 +7,22 @@ class Post extends Base
 
     public function user()
     {
-        return $this->belongsTo('Butler\Model\User');
+        return $this->belongsTo('Butler\Models\User');
     }
 
     public function comments()
     {
-        return $this->hasMany('Butler\Model\Comment');
+        return $this->hasMany('Butler\Models\Comment');
     }
 
     public function revisions()
     {
-        return $this->morphMany('Butler\Model\Revision', 'revisionable');
+        return $this->morphMany('Butler\Models\Revision', 'revisionable');
     }
 
     public function category()
     {
-        return $this->belongsToMany('Butler\Model\Category', 'category_post')->withTimestamps();
+        return $this->belongsToMany('Butler\Models\Category', 'category_post')->withTimestamps();
     }
 
     public function anchorUrl()

@@ -6,7 +6,7 @@ class UserTableSeeder extends Seeder {
     {
         DB::table('users')->delete();
 
-        Butler\Model\User::create(array(
+        Butler\Models\User::create(array(
             'email'        => 'blogger@butler.com',
             'password'     => 'password',
             'first_name'   => 'Blog',
