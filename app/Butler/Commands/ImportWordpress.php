@@ -1,6 +1,6 @@
 <?php namespace Butler\Commands;
 
-use Butler\Model;
+use Butler\Models;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -115,7 +115,7 @@ class ImportWordpress extends IlluminateCommand
         $wordpress_users = DB::connection('wordpress_import')->table('users')->get();
 
         foreach ($wordpress_users as $wordpress_user) {
-            $user = new Model\User();
+            $user = new Models\User();
             $user->email        = $wordpress_user->user_email;
             $user->password     = Hash::make($wordpress_user->user_email);
             $user->display_name = $wordpress_user->display_name;
@@ -140,7 +140,7 @@ class ImportWordpress extends IlluminateCommand
         $categories = array();
 
         foreach ($wordpress_taxonomy as $wordpress_category) {
-            $category = new Model\Category();
+            $category = new Models\Category();
             $category->name = $wordpress_category->name;
 
             if ($category->save()) {
@@ -176,7 +176,7 @@ class ImportWordpress extends IlluminateCommand
             ->where('post_type', '=', 'post')->get();
 
         foreach ($wordpress_posts as $wordpress_post) {
-            $post = new Model\Post();
+            $post = new Models\Post();
             $post->user_id = $this->user_mapping[$wordpress_post->post_author];
             $post->title   = $wordpress_post->post_title;
             $post->content = $wordpress_post->post_content;
@@ -267,7 +267,7 @@ class ImportWordpress extends IlluminateCommand
 
             if (isset($this->post_mapping[$wordpress_revision->post_parent])) {
 
-                $revision = new Model\PostRevision();
+                $revision = new Models\PostRevision();
                 $revision->post_id = $this->post_mapping[$wordpress_revision->post_parent];
                 $revision->user_id = $this->user_mapping[$wordpress_revision->post_author];
                 $revision->title   = $wordpress_revision->post_title;
@@ -297,7 +297,7 @@ class ImportWordpress extends IlluminateCommand
             ->where('post_type', '=', 'page')->get();
 
         foreach ($wordpress_pages as $wordpress_page) {
-            $page = new Model\Page();
+            $page = new Models\Page();
             $page->user_id = $this->user_mapping[$wordpress_page->post_author];
             $page->title   = $wordpress_page->post_title;
             $page->content = $wordpress_page->post_content;
@@ -370,7 +370,7 @@ class ImportWordpress extends IlluminateCommand
 
             if (isset($this->page_mapping[$wordpress_revision->post_parent])) {
 
-                $revision = new Model\PageRevision();
+                $revision = new Models\PageRevision();
                 $revision->page_id = $this->page_mapping[$wordpress_revision->post_parent];
                 $revision->user_id = $this->user_mapping[$wordpress_revision->post_author];
                 $revision->title   = $wordpress_revision->post_title;
@@ -403,7 +403,7 @@ class ImportWordpress extends IlluminateCommand
         $comments = array();
 
         foreach ($wordpress_comments as $wordpress_comment) {
-            $comment = new Model\Comment();
+            $comment = new Models\Comment();
             $comment->post_id = $this->post_mapping[$wordpress_comment->comment_post_ID];
 
             if ($wordpress_comment->user_id == 0) {

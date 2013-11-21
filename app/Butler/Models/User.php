@@ -2,7 +2,6 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
-
 use Illuminate\Support\Facades\Hash;
 
 class User extends Base implements UserInterface, RemindableInterface

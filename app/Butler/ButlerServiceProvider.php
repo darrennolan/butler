@@ -20,6 +20,10 @@ class ButlerServiceProvider extends \Illuminate\Support\ServiceProvider {
     {
         Facades\Event::subscribe( new Events\Post );
         Facades\Event::subscribe( new Events\Paginate );
+
+        include __DIR__ . '/routes.php';
+
+        return parent::boot();
     }
 
     /**
@@ -33,6 +37,14 @@ class ButlerServiceProvider extends \Illuminate\Support\ServiceProvider {
         AliasLoader::getInstance()->alias('ButlerFlow', 'Butler\Facades\Flow');
         AliasLoader::getInstance()->alias('ButlerTheme', 'Butler\Facades\Theme');
         AliasLoader::getInstance()->alias('ButlerHTML', 'Butler\Facades\HTML');
+
+        // \Artisan::add(new \Butler\Commands\ImportWordpress);
+        //
+        $this->app['command.butler.importwordpress'] = $this->app->share(function($app) {
+            return new Commands\ImportWordpress;
+        });
+
+        $this->commands('command.butler.importwordpress');
     }
 
     /**

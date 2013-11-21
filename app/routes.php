@@ -10,28 +10,3 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-
-//Route::get('/', 'Butler\Controller\HomeController@home');
-
-Route::get('/{page?}', function($pageNumber = 1) {
-    Butler\Events\Paginate::setPage($pageNumber);
-    return ButlerHTML::make();
-});
-
-
-
-/*
-Route::get('revision', function() {
-
-    Auth::loginUsingId(5);
-
-    //DB::table('posts')->delete();
-
-    //$post = new Post;
-    $post = Butler\Model\Post::whereTitle('hi')->first();
-    $post->title = "Dean is the catman!";
-    $post->save();
-    $post->title = "RAWR";
-    $post->save();
-});
-*/

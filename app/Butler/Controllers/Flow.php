@@ -16,9 +16,14 @@ class Flow
      * Works out what the home page is.
      * @return [type] [description]
      */
-    public function homeDirective()
+    public function homeRoute()
     {
-        //return $this->thePosts();
+       return '/';
+    }
+
+    public function currentRouteName()
+    {
+        return \Route::currentRouteName();
     }
 
     /**
