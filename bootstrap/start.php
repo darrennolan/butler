@@ -28,7 +28,7 @@ $app->redirectIfTrailingSlash();
 
 $env = $app->detectEnvironment(array(
 
-    'dev' => array('iMac.local', 'localhost', 'dev.*'),
+    'dev' => array('Deans-MacBook-Pro.local', 'iMac.local', 'localhost', 'dev.*'),
 
 ));
 

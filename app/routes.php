@@ -1,10 +1,4 @@
 <?php
-Illuminate\Foundation\AliasLoader::getInstance()->alias('ButlerFlow', 'Butler\Facades\Flow');
-
-$subscriber = new Butler\Event\Post;
-Event::subscribe($subscriber);
-$subscriber = new Butler\Event\Paginate;
-Event::subscribe($subscriber);
 
 /*
 |--------------------------------------------------------------------------
@@ -15,29 +9,4 @@ Event::subscribe($subscriber);
 | It's a breeze. Simply tell Laravel the URIs it should respond to
 | and give it the Closure to execute when that URI is requested.
 |
-*/
-
-//Route::get('/', 'Butler\Controller\HomeController@home');
-
-Route::get('/', function() {
-    require app_path() . '/views/themes/default/functions.php';
-    return View::make('themes.default.index');
-});
-
-
-
-/*
-Route::get('revision', function() {
-
-    Auth::loginUsingId(5);
-
-    //DB::table('posts')->delete();
-
-    //$post = new Post;
-    $post = Butler\Model\Post::whereTitle('hi')->first();
-    $post->title = "Dean is the catman!";
-    $post->save();
-    $post->title = "RAWR";
-    $post->save();
-});
 */

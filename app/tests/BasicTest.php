@@ -11,16 +11,22 @@ class BasicTest extends TestCase
         $this->seed();
     }
 
-	/**
-	 * A basic functional test example.
-	 *
-	 * @return void
-	 */
-	public function testBasicExample()
-	{
-		$crawler = $this->client->request('GET', '/');
+    public function tearDown()
+    {
+        Artisan::call('cache:clear');
+    }
 
-		$this->assertTrue($this->client->getResponse()->isOk());
-	}
+    /**
+     * A basic functional test example.
+     *
+     * @return void
+     */
+    public function testBasicExample()
+    {
+        $crawler = $this->client->request('GET', '/');
+
+        $this->assertTrue($this->client->getResponse()->isOk());
+    }
+
 
 }

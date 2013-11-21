@@ -18,7 +18,7 @@ class UserTest extends TestCase
     {
         Hash::shouldReceive('make')->once()->andReturn('hashed');
 
-        $user = new Butler\Model\User;
+        $user = new Butler\Models\User;
         $user->password = 'foo';
 
         $this->assertEquals('hashed', $user->password);
@@ -30,7 +30,7 @@ class UserTest extends TestCase
         $input = array('email' => $data_store->getEmail());
 
         $this->assertTrue(
-            Butler\Model\User::validator(
+            Butler\Models\User::validator(
                 $input,
                 array_keys($input)
             )
@@ -42,7 +42,7 @@ class UserTest extends TestCase
         $input = array('email' => 'peanut');
 
         $this->assertFalse(
-            Butler\Model\User::validator(
+            Butler\Models\User::validator(
                 $input,
                 array_keys($input)
             )
@@ -54,7 +54,7 @@ class UserTest extends TestCase
         $input = array('url' => 'http://valid.domain.com');
 
         $this->assertTrue(
-            Butler\Model\User::validator(
+            Butler\Models\User::validator(
                 $input,
                 array_keys($input)
             )
@@ -66,7 +66,7 @@ class UserTest extends TestCase
         $input = array('url' => 'peanut');
 
         $this->assertFalse(
-            Butler\Model\User::validator(
+            Butler\Models\User::validator(
                 $input,
                 array_keys($input)
             )
@@ -87,7 +87,7 @@ class UserTest extends TestCase
         );
 
         $this->assertTrue(
-            Butler\Model\User::validator(
+            Butler\Models\User::validator(
                 $input,
                 array_keys($input)
             )
@@ -99,7 +99,7 @@ class UserTest extends TestCase
         $input = array('status' => 'peanut');
 
         $this->assertFalse(
-            Butler\Model\User::validator(
+            Butler\Models\User::validator(
                 $input,
                 array_keys($input)
             )
@@ -110,7 +110,7 @@ class UserTest extends TestCase
     {
         $data_store = new DataStore;
         $user = Factory::make(
-            'Butler\Model\User',
+            'Butler\Models\User',
             array(
                 'email'        => $data_store->getEmail(),
                 'password'     => 'password',
@@ -129,7 +129,7 @@ class UserTest extends TestCase
     public function testNotValidUser()
     {
         $user = Factory::make(
-            'Butler\Model\User',
+            'Butler\Models\User',
             array(
                 'email'  => 'foo',
                 'url'    => 'bar',
