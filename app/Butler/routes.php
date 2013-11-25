@@ -15,7 +15,11 @@ Route::group(array('prefix' => ButlerFlow::homeRoute()), function() {
         return 'test';
     });
 
-    Route::get('/{page?}', array('as' => 'butler.home', function() {
+    Route::get('/{page?}', array('as' => 'butler.home', function($page = false) {
+        if ($page == 1) {
+            // Remove "1" as a page number from this route.  Make sure goole doesn't double index this.
+            return Redirect::route('butler.home');
+        }
         return ButlerHTML::make();
     }));
 
