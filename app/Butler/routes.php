@@ -11,35 +11,41 @@ Route::get('/{page?}', function($pageNumber = 1) {
 
 Route::group(array('prefix' => ButlerFlow::homeRoute()), function() {
 
-    Route::get('test', function() {
-        return 'test';
-    });
+    Route::get('category/{category?}/{page?}', array('as' => 'butler.category', function($category = false, $page = false) {
+        if ($category === false) {
+            return 'category view';
+        } else {
+            if ($page == 1) {
+                return Redirect::route('butler.category', $category);
+            } else {
+                return 'posts in category ' . $category;
+            }
+        }
+    }));
+
+    Route::get('tag/{tag?}/{page?}', array('as' => 'butler.tag', function() {
+        if ($category === false) {
+            return 'category view';
+        } else {
+            if ($page == 1) {
+                return Redirect::route('butler.category', $category);
+            } else {
+                return 'posts in category ' . $category;
+            }
+        }
+    }));
 
     Route::get('/{page?}', array('as' => 'butler.home', function($page = false) {
         if ($page == 1) {
-            // Remove "1" as a page number from this route.  Make sure goole doesn't double index this.
             return Redirect::route('butler.home');
+        } elseif ($page === false) {
+            ButlerFlow::setHomepage();
         }
         return ButlerHTML::make();
     }));
 
-    Route::get('/category/{category_name?}', array('as' => 'butler.category', function() {
-        return 'category views';
-    }));
-
-    Route::get('/tag/{tag_name?}', array('as' => 'butler.tag', function() {
-
-    }));
-
-    Route::get('/{param1?}/{param2?}/{param3?}', array('as' => 'butler.custom', function() {
-        return Event::chain('butler.custom.route', func_get_args());
-    }));
-
 });
 
-
-
-Route::get('//{page}.html', array('as' => 'products.list', 'uses' => ''));
 
 
 

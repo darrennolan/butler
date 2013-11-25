@@ -12,6 +12,8 @@ class Flow
 
     private $page;
 
+    private $homepage = false;
+
     /**
      * Works out what the home page is.
      * @return [type] [description]
@@ -46,5 +48,15 @@ class Flow
         $this->page = Event::chain('butler.flow.getPage', $this->page);
 
         return $this->page;
+    }
+
+    public function isHomepage()
+    {
+        return $this->homepage;
+    }
+
+    public function setHomepage()
+    {
+        $this->homepage = true;
     }
 }

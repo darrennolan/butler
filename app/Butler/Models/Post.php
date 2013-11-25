@@ -1,5 +1,7 @@
 <?php namespace Butler\Models;
 
+use Butler\Facades\Event;
+
 class Post extends Base
 {
     protected $table   = 'posts';
@@ -52,6 +54,12 @@ class Post extends Base
         $title = preg_replace($match, $replace, $title);
 
         return trim($title, '-');
+    }
+
+    public function __get($key)
+    {
+        $key_value = parent::getAttribute($key);
+        return Event::chain('butler.post.' . $key, $key_value);
     }
 
 }
