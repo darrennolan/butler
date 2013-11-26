@@ -13,6 +13,7 @@
                 <div class="the-content">
                     {{$post->content}}
                 </div>
+                <hr>
             @endforeach
 
             @if (ButlerFlow::thePosts()->count() == 0)
