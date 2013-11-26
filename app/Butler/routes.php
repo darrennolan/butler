@@ -18,6 +18,7 @@ Route::group(array('prefix' => ButlerFlow::homeRoute()), function() {
             if ($page == 1) {
                 return Redirect::route('butler.category', $category);
             } else {
+                ButlerEvent::listen('butler.thePosts', function($query) {});
                 return 'posts in category ' . $category;
             }
         }

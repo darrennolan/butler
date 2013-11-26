@@ -4,44 +4,34 @@ class PostTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::table('posts')->delete();
+        $faker = Faker\Factory::create();
 
-        /**
-         * User to Attach to
-         */
-        $user = Butler\Models\User::first();
+        DB::table('posts')->delete();
 
         /**
          * Testing Posts
          */
+        $status = array('draft', 'pending_review', 'trash', 'published');
         for ($i = 1; $i < 100; $i++) {
 
-            $post                 = new Butler\Models\Post;
-            $post->title          = 'Post Title Testing ' . $i;
-            $post->content        = '<h4>Heading</h4><p>Just some testing text.</p><h4>Another Heading</h4><p>And some more text.</p>';
-            $post->excerpt        = null;
-            $post->show_at        = new DateTime();
-            $post->show_at->add(new DateInterval("PT{$i}S"));
-            $post->show_until     = null;
-            $post->visibility     = 'public';
-            $post->status         = 'published';
-            $post->allow_comments = true;
-            $post->is_page        = false;
-            $user->posts()->save($post);
-
-            $i++;
+            $user = Butler\Models\User::whereStatus('active')->orderBy(DB::raw('RAND()'))->first();
 
             $post                 = new Butler\Models\Post;
-            $post->title          = 'Post Title Testing ' . $i;
-            $post->content        = '<h4>Lorim Ipsum</h4><p>And some examples of a second post.</p><h4>Another Lorim</h4><p>Tada Tada Tada Tada Tada Tada .</p>';
-            $post->excerpt        = null;
-            $post->show_at        = new DateTime();
-            $post->show_at->add(new DateInterval("PT{$i}S"));
+            $post->title          = $faker->sentence;
+
+            $content = $faker->paragraphs( rand(3,20) );
+            $content = array_map(function($element) {
+                return "<p>{$element}</p>";
+            }, $content);
+
+            $post->content        = implode("\r\n", $content);
+            $post->excerpt        = implode("\r\n", array_slice($content, 0, rand(1, 3)));
+            $post->show_at        = $faker->dateTimeBetween('-1 years', 'now');
             $post->show_until     = null;
             $post->visibility     = 'public';
-            $post->status         = 'published';
-            $post->allow_comments = true;
-            $post->is_page        = false;
+            $post->status         = ($faker->boolean(50) ? true : $status[rand(0, 2)]);
+            $post->allow_comments = $faker->boolean(50);
+            $post->is_page        = $faker->boolean(10);
             $user->posts()->save($post);
 
         }
