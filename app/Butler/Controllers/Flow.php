@@ -10,9 +10,7 @@ class Flow
 
     private $is_page = false;
 
-    private $page;
-
-    private $homepage = false;
+    private $is_homepage = false;
 
     /**
      * Works out what the home page is.
@@ -32,7 +30,7 @@ class Flow
      * Returns a collection of posts.
      * @return [type] [description]
      */
-    public function thePosts(Boolean $reset = null)
+    public function thePosts($reset = null)
     {
         if ($this->posts === null || $reset == true) {
             $this->posts = Event::chain('butler.flow.thePosts.makeBuilder', $this->posts);
@@ -40,23 +38,47 @@ class Flow
             $this->posts = Event::chain('butler.flow.thePosts.makeCollection', $this->posts);
         }
 
+        if ( ! $this->is_page ) {
+            Event::listen('butler.post.the_content', function($the_post) {
+                if ($the_post->excerpt) {
+                    return $the_post->excerpt;
+                } else {
+                    return $the_post->content;
+                }
+            }, 10);
+        } else {
+            Event::listen('butler.post.the_content', function($the_post) {
+                return $the_post->content;
+            });
+        }
+
         return $this->posts;
     }
 
-    public function getPage()
+    public function isHomepage($is_homepage = null)
     {
-        $this->page = Event::chain('butler.flow.getPage', $this->page);
+        if ($is_homepage !== null) {
 
-        return $this->page;
+            $this->is_homepage = $is_homepage ? true : false;
+
+        } else {
+
+            return $this->is_homepage;
+
+        }
     }
 
-    public function isHomepage()
+    public function isPage($is_page = null)
     {
-        return $this->homepage;
+        if ($is_page !== null) {
+
+            $this->is_page = $is_page ? true : false;
+
+        } else {
+
+            return $this->is_page;
+
+        }
     }
 
-    public function setHomepage()
-    {
-        $this->homepage = true;
-    }
 }

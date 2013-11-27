@@ -19,7 +19,3 @@ ButlerEvent::listen('butler.post.title', function($title) {
     $title = str_replace('Post', 'Rawr', $title);
     return $title;
 });
-
-ButlerEvent::listen('butler.flow.thePosts', function($query) {
-    return $query->where('title', '!=', 'Post Title Testing 100');
-}, 10);

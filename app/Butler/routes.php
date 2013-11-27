@@ -22,7 +22,9 @@ Route::group(array('prefix' => ButlerFlow::homeRoute()), function() {
                 return 'posts in category ' . $category;
             }
         }
-    }));
+    }))->where('page', '[0-9]+');
+
+
 
     Route::get('tag/{tag?}/{page?}', array('as' => 'butler.tag', function() {
         if ($category === false) {
@@ -34,16 +36,24 @@ Route::group(array('prefix' => ButlerFlow::homeRoute()), function() {
                 return 'posts in category ' . $category;
             }
         }
-    }));
+    }))->where('page', '[0-9]+');
+
+
 
     Route::get('/{page?}', array('as' => 'butler.home', function($page = false) {
         if ($page == 1) {
+
             return Redirect::route('butler.home');
+
         } elseif ($page === false) {
-            ButlerFlow::setHomepage();
+
+            ButlerFlow::isHomepage(true);
+
         }
         return ButlerHTML::make();
-    }));
+    }))->where('page', '[0-9]+');
+
+
 
 });
 

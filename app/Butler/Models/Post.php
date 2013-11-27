@@ -1,6 +1,10 @@
 <?php namespace Butler\Models;
 
+use Butler\Models\PostSlug;
+
+use Illuminate\Support\Facades\DB;
 use Butler\Facades\Event;
+use Butler\Facades\Flow as ButlerFlow;
 
 class Post extends Base
 {
@@ -15,6 +19,11 @@ class Post extends Base
     public function comments()
     {
         return $this->hasMany('Butler\Models\Comment');
+    }
+
+    public function postSlugs()
+    {
+        return $this->hasMany('Butler\Models\PostSlug');
     }
 
     public function revisions()
@@ -32,28 +41,47 @@ class Post extends Base
         return date("Y/m/d", strtotime($this->post_at)) . '/' . $this->titleUrl();
     }
 
-    public function titleUrl()
+    public function theContent()
     {
-        /**
-         * http://stackoverflow.com/questions/2234169/best-way-to-convert-title-into-url-compatible-mode-in-php
-         */
-        $title = $this->title;
+        if (ButlerFlow::isPage()) {
+            return $this->content;
+        } else {
+            if ($this->excerpt) {
+                return $this->excerpt;
+            } else {
+                return $this->content;
+            }
+        }
+    }
 
-        # Prep string with some basic normalization
-        $title = strtolower($title);
-        $title = strip_tags($title);
-        $title = stripslashes($title);
-        $title = html_entity_decode($title);
+    public function save(array $options = array())
+    {
+        if ( ! $this->exists ) {
 
-        # Remove quotes (can't, etc.)
-        $title = str_replace('\'', '', $title);
+            DB::transaction(function() use ($options) {
+                $parent_save = parent::save($options);
 
-        # Replace non-alpha numeric with hyphens
-        $match = '/[^a-z0-9]+/';
-        $replace = '-';
-        $title = preg_replace($match, $replace, $title);
+                if ($parent_save) {
 
-        return trim($title, '-');
+                    $post_slug       = new PostSlug;
+                    $post_slug->post = $this;
+
+                    $slug_saved = $this->postSlugs()->save($post_slug);
+
+                    if ($slug_saved) {
+                        return $parent_save;
+                    } else {
+                        return $slug_saved;
+                    }
+
+                } else {
+                    return $parent_save;
+                }
+
+            });
+        }
+
+        return parent::save($options);
     }
 
     public function __get($key)
