@@ -8,13 +8,15 @@ class PostTableSeeder extends Seeder {
 
         DB::table('posts')->delete();
 
+        $users      = Butler\Models\User::whereStatus('active')->get();
+
         /**
          * Testing Posts
          */
         $status = array('draft', 'pending_review', 'trash', 'published');
         for ($i = 1; $i < 100; $i++) {
 
-            $user = Butler\Models\User::whereStatus('active')->orderBy(DB::raw('RAND()'))->first();
+            $user = $users->get( rand(0, $users->count() - 1) );
 
             $post                 = new Butler\Models\Post;
             $post->title          = $faker->sentence;
