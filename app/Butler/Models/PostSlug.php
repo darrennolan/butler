@@ -41,7 +41,7 @@ class PostSlug extends Base
     public function save(array $options = array())
     {
         if ( ! $this->exists && ! $this->post_url ) {
-            $this->url = $this->post->show_at->format('Y/m/d') . '/' . self::titleUrl($this->post->title);
+            $this->url = $this->post->show_at->format('Y/m') . '/' . self::titleUrl($this->post->title);
             unset($this->post);
         }
 
