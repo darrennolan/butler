@@ -9,9 +9,13 @@
         <div class="col-md-12">
 
             @foreach (ButlerFlow::thePosts() as $post)
-                <h2>{{$post->title}}</h2>
+                <h2><a href="{{ URL::to($post->thePermalink()) }}">{{$post->theTitle()}}</a></h2>
                 <div class="the-content">
                     {{$post->theContent()}}
+
+                    @if ($post->hasMore())
+                    <p><a href="{{URL::to($post->thePermalink())}}">Read More...</a></p>
+                    @endif
                 </div>
                 <hr>
             @endforeach

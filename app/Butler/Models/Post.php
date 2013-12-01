@@ -26,6 +26,12 @@ class Post extends Base
         return $this->hasMany('Butler\Models\PostSlug');
     }
 
+    public function currentSlug()
+    {
+        return $this->hasOne('Butler\Models\PostSlug')
+            ->orderBy('created_at', 'DESC');
+    }
+
     public function revisions()
     {
         return $this->morphMany('Butler\Models\Revision', 'revisionable');
@@ -52,6 +58,28 @@ class Post extends Base
                 return $this->content;
             }
         }
+    }
+
+    public function hasMore()
+    {
+        if (ButlerFlow::isPage()) {
+            return false;
+        } else {
+            if ($this->excerpt) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function theTitle()
+    {
+        return $this->title;
+    }
+
+    public function thePermalink()
+    {
+        return $this->currentSlug->url;
     }
 
     public function save(array $options = array())

@@ -21,6 +21,7 @@ class Post
             $current_date_time = new DateTime();
 
             $query->where('visibility', '=', 'public')
+                ->with('currentSlug')
                 ->where('show_at', '<=', $current_date_time)
                 ->whereNull('show_until')
                 ->orWhere('show_until', '>=', $current_date_time)
