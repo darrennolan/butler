@@ -1,8 +1,10 @@
 <?php namespace Butler\Controllers;
 
 use DateTime;
-use Butler\Model;
+use Illuminate\Support\Collection;
+use Butler\Models;
 use Butler\Facades\Event;
+use Butler\Facades\HTML;
 
 class Flow
 {
@@ -53,6 +55,32 @@ class Flow
         }
 
         return $this->posts;
+    }
+
+    public function trySlug($url)
+    {
+        // $this->posts = Event::chain('butler.flow.findslug', $this->posts);
+        $post_slug = Models\PostSlug::whereUrl($url)->first();
+
+        // Let this event continue on as 404 if we can't find a slug.
+        if ( ! $post_slug ) return;
+
+        $latest_post_slug = Models\PostSlug::wherePostId($post_slug->post_id)->orderBy('created_at', 'DESC')->first();
+
+        if ($url != $latest_post_slug->url) {
+            // Find the latest post slug to redirect to if it doesn't match our current URL.
+            return Redirect::to( $latest_post_slug->url );
+        } else {
+            $this->posts = new Collection(array( $post_slug->post ));
+            $this->isPage(true);
+            return HTML::make();
+        }
+
+    }
+
+    public function hasLinks()
+    {
+        return $this->posts instanceof \Illuminate\Pagination;
     }
 
     public function isHomepage($is_homepage = null)

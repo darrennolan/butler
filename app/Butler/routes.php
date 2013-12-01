@@ -53,7 +53,10 @@ Route::group(array('prefix' => ButlerFlow::homeRoute()), function() {
         return ButlerHTML::make();
     }))->where('page', '[0-9]+');
 
-
+    // Catch slugs.  If not found, let the missing exception keep going.
+    App::missing(function($exception) {
+        return ButlerFlow::trySlug( Request::path() );
+    });
 
 });
 

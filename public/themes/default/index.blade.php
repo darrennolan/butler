@@ -24,7 +24,9 @@
                 <p>No Posts</p>
             @endif
 
-            {{ ButlerFlow::thePosts()->links() }}
+            @if (ButlerFlow::hasLinks())
+                {{ ButlerFlow::thePosts()->links() }}
+            @endif
 
         </div> <!-- eo col-md-12 -->
 
