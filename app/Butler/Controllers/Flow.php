@@ -35,13 +35,13 @@ class Flow
     public function thePosts($reset = null)
     {
         if ($this->posts === null || $reset == true) {
-            $this->posts = Event::chain('butler.flow.thePosts.makeBuilder', $this->posts);
-            $this->posts = Event::chain('butler.flow.thePosts', $this->posts);
-            $this->posts = Event::chain('butler.flow.thePosts.makeCollection', $this->posts);
+            $this->posts = Event::fireChain('butler.flow.thePosts.makeBuilder', $this->posts);
+            $this->posts = Event::fireChain('butler.flow.thePosts', $this->posts);
+            $this->posts = Event::fireChain('butler.flow.thePosts.makeCollection', $this->posts);
         }
 
         if ( ! $this->is_page ) {
-            Event::listen('butler.post.the_content', function($the_post) {
+            Event::listenChain('butler.post.the_content', function($the_post) {
                 if ($the_post->excerpt) {
                     return $the_post->excerpt;
                 } else {
@@ -49,7 +49,7 @@ class Flow
                 }
             }, 10);
         } else {
-            Event::listen('butler.post.the_content', function($the_post) {
+            Event::listenChain('butler.post.the_content', function($the_post) {
                 return $the_post->content;
             });
         }
@@ -80,7 +80,9 @@ class Flow
 
     public function hasLinks()
     {
-        return $this->posts instanceof \Illuminate\Pagination;
+        $is_pagination = $this->posts instanceof \DeSmart\Pagination\Paginator || $this->posts instanceof \Illuminate\Pagination;
+
+        return $is_pagination;
     }
 
     public function isHomepage($is_homepage = null)

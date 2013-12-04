@@ -41,6 +41,7 @@ Route::group(array('prefix' => ButlerFlow::homeRoute()), function() {
 
 
     Route::get('/{page?}', array('as' => 'butler.home', function($page = false) {
+
         if ($page == 1) {
 
             return Redirect::route('butler.home');

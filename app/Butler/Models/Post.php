@@ -115,7 +115,7 @@ class Post extends Base
     public function __get($key)
     {
         $key_value = parent::getAttribute($key);
-        return Event::chain('butler.post.' . $key, $key_value);
+        return Event::fireChain('butler.post.' . $key, $key_value);
     }
 
 }

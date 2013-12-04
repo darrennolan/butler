@@ -39,7 +39,7 @@ class Post
      */
     public function subscribe($events)
     {
-        $events->listen('butler.flow.thePosts.makeBuilder', 'Butler\Events\Post@thePostsBuilder', 5);
-        $events->listen('butler.flow.thePosts', 'Butler\Events\Post@thePosts', 5);
+        $events->listenChain('butler.flow.thePosts.makeBuilder', 'Butler\Events\Post@thePostsBuilder', 5);
+        $events->listenChain('butler.flow.thePosts', 'Butler\Events\Post@thePosts', 5);
     }
 }
